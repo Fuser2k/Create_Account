@@ -2,52 +2,67 @@ package com.example.create_account
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.textfield.TextInputLayout
 
 class MainActivity : AppCompatActivity() {
 
     private val credentialsManager = CredentialsManager() // Using the CredentialsManager class
 
+    // Using lazy initialization for UI components
+    private val emailFieldLayout: TextInputLayout by lazy { findViewById(R.id.emailFieldLayout) }
+    private val passwordFieldLayout: TextInputLayout by lazy { findViewById(R.id.passwordFieldLayout) }
+    private val proceedButton by lazy { findViewById<com.google.android.material.button.MaterialButton>(R.id.proceedButton) }
+    private val registerLink by lazy { findViewById<android.widget.TextView>(R.id.registerLink) }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // Define UI components
-        val emailEditText = findViewById<EditText>(R.id.emailField)
-        val passwordEditText = findViewById<EditText>(R.id.passwordField)
-        val loginButton = findViewById<Button>(R.id.proceedButton)
-        val registerLink = findViewById<TextView>(R.id.registerLink)
-
-        // Set click listener for "Register Now" link
+        // "Register Now" link click listener
         registerLink.setOnClickListener {
             val intent = Intent(this, MainActivity2::class.java)
             startActivity(intent)
         }
 
-        // Set click listener for the login button
-        loginButton.setOnClickListener {
-            val email = emailEditText.text.toString().trim()
-            val password = passwordEditText.text.toString().trim()
+        // "Next" button click listener
+        proceedButton.setOnClickListener {
+            val email = emailFieldLayout.editText?.text.toString().trim()
+            val password = passwordFieldLayout.editText?.text.toString().trim()
 
-            when {
-                email.isEmpty() -> {
-                    Toast.makeText(this, "Email field cannot be empty!", Toast.LENGTH_SHORT).show()
-                }
-                password.isEmpty() -> {
-                    Toast.makeText(this, "Password field cannot be empty!", Toast.LENGTH_SHORT).show()
-                }
-                !credentialsManager.isEmailValid(email) -> {
-                    Toast.makeText(this, "Invalid email format!", Toast.LENGTH_SHORT).show()
-                }
-                !credentialsManager.isPasswordValid(password) -> {
-                    Toast.makeText(this, "Password must be at least 8 characters long!", Toast.LENGTH_SHORT).show()
-                }
-                else -> {
+            var isValid = true
+
+            // Validate email
+            if (email.isEmpty()) {
+                emailFieldLayout.error = "Email field cannot be empty!"
+                isValid = false
+            } else if (!credentialsManager.isEmailValid(email)) {
+                emailFieldLayout.error = "Invalid email format!"
+                isValid = false
+            } else {
+                emailFieldLayout.error = null // Clear previous error
+            }
+
+            // Validate password
+            if (password.isEmpty()) {
+                passwordFieldLayout.error = "Password field cannot be empty!"
+                isValid = false
+            } else if (!credentialsManager.isPasswordValid(password) && !credentialsManager.isHardcodedCredentials(email, password)) {
+                passwordFieldLayout.error = "Password must be at least 8 characters long!"
+                isValid = false
+            } else {
+                passwordFieldLayout.error = null // Clear previous error
+            }
+
+            // Check credentials
+            if (isValid) {
+                if (credentialsManager.isHardcodedCredentials(email, password)) {
                     Toast.makeText(this, "Login successful!", Toast.LENGTH_SHORT).show()
+                    val intent = Intent(this, MainActivity2::class.java)
+                    startActivity(intent)
+                } else {
+                    Toast.makeText(this, "Invalid credentials!", Toast.LENGTH_SHORT).show()
                 }
             }
         }
