@@ -32,8 +32,10 @@
             android:name=".MainActivity2"
             android:exported="true" />
 
-
-
+        <!-- FragmentSwitchActivity tanımı -->
+        <activity
+            android:name=".FragmentSwitchActivity"
+            android:exported="true" />
     </application>
 
 </manifest>
