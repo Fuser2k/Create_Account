@@ -5,7 +5,7 @@ import org.junit.Test
 
 class CredentialsManagerTest {
 
-    private val credentialsManager = CredentialsManager() // Instance of the class being tested
+    private val credentialsManager = CredentialsManager()
 
     @Test
     fun `test empty email returns false`() {
