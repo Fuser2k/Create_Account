@@ -65,4 +65,31 @@ class CredentialsManagerTest {
         val result = credentialsManager.isEmailValid(longEmail)
         assertFalse("Excessively long email should be invalid", result)
     }
+
+    @Test
+    fun `test register new account successfully`() {
+        val result = credentialsManager.register("new@example.com", "securePassword123")
+        assertTrue("New account should be registered successfully", result)
+    }
+
+    @Test
+    fun `test register with existing email fails`() {
+        credentialsManager.register("duplicate@example.com", "securePassword123")
+        val result = credentialsManager.register("duplicate@example.com", "anotherPassword")
+        assertFalse("Registering with an already used email should fail", result)
+    }
+
+    @Test
+    fun `test validate newly registered credentials`() {
+        credentialsManager.register("newuser@example.com", "securePassword123")
+        val result = credentialsManager.validateCredentials("newuser@example.com", "securePassword123")
+        assertTrue("Newly registered credentials should be valid", result)
+    }
+
+    @Test
+    fun `test validate wrong credentials for registered email`() {
+        credentialsManager.register("wrong@example.com", "securePassword123")
+        val result = credentialsManager.validateCredentials("wrong@example.com", "wrongPassword")
+        assertFalse("Wrong password should not be validated", result)
+    }
 }
