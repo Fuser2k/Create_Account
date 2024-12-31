@@ -22,7 +22,6 @@ class MainActivity2 : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activitiy_main2)
 
-        // "Already a Member? Log In" click listener
         alreadyMemberText.setOnClickListener {
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
@@ -37,7 +36,6 @@ class MainActivity2 : AppCompatActivity() {
 
             var isValid = true
 
-            // Validate full name
             if (fullName.isEmpty()) {
                 fullNameInputLayout.error = "Full Name cannot be empty!"
                 isValid = false
@@ -45,7 +43,6 @@ class MainActivity2 : AppCompatActivity() {
                 fullNameInputLayout.error = null
             }
 
-            // Validate email
             if (email.isEmpty()) {
                 emailInputLayout.error = "Email cannot be empty!"
                 isValid = false
@@ -56,7 +53,6 @@ class MainActivity2 : AppCompatActivity() {
                 emailInputLayout.error = null
             }
 
-            // Validate phone number
             if (phoneNumber.isEmpty()) {
                 phoneNumberInputLayout.error = "Phone Number cannot be empty!"
                 isValid = false
@@ -64,7 +60,6 @@ class MainActivity2 : AppCompatActivity() {
                 phoneNumberInputLayout.error = null
             }
 
-            // Validate password
             if (password.isEmpty()) {
                 passwordInputLayout.error = "Password cannot be empty!"
                 isValid = false
@@ -75,7 +70,6 @@ class MainActivity2 : AppCompatActivity() {
                 passwordInputLayout.error = null
             }
 
-            // Register new account if all fields are valid
             if (isValid) {
                 val registerResult = credentialsManager.register(email, password)
                 if (registerResult) {

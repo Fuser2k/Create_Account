@@ -2,20 +2,15 @@ package com.example.create_account
 
 class CredentialsManager {
 
-    // Stores accounts as email-password pairs
     private val accounts = mutableMapOf<String, String>()
 
-    // Validates if the email is in a correct format
     fun isEmailValid(email: String): Boolean {
-        if (email.isEmpty()) return false // Empty email is invalid
-        // Regex to match a valid email format
+        if (email.isEmpty()) return false
         val emailRegex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$"
-        return Regex(emailRegex).matches(email) // Checks if email matches the pattern
+        return Regex(emailRegex).matches(email)
     }
 
-    // Validates if the password meets the criteria
     fun isPasswordValid(password: String): Boolean {
-        // Password must not be empty and must have at least 8 characters
         return password.isNotEmpty() && password.length >= 8
     }
 
@@ -26,18 +21,15 @@ class CredentialsManager {
         return email == hardcodedEmail && password == hardcodedPassword
     }
 
-    // Registers a new account
     fun register(email: String, password: String): Boolean {
         if (accounts.containsKey(email)) {
-            return false // Email is already taken
+            return false
         }
-        accounts[email] = password // Add the account to the map
+        accounts[email] = password
         return true
     }
 
-    // Validates login credentials
     fun validateCredentials(email: String, password: String): Boolean {
-        // Check if the credentials exist in the map or are hardcoded
         return accounts[email] == password || isHardcodedCredentials(email, password)
     }
 }
