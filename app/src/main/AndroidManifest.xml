@@ -17,7 +17,12 @@
         android:theme="@style/Theme.Create_Account"
         tools:targetApi="31">
 
-        <!-- MainActivity tanımı -->
+        <!-- RecipeActivity tanımı -->
+        <activity
+            android:name=".RecipeActivity"
+            android:exported="false" />
+
+        <!-- MainActivity tanımı (giriş ekranı) -->
         <activity
             android:name=".MainActivity"
             android:exported="true">
@@ -27,12 +32,10 @@
             </intent-filter>
         </activity>
 
-        <!-- MainActivity2 tanımı -->
+        <!-- MainActivity2 tanımı (kayıt ekranı) -->
         <activity
             android:name=".MainActivity2"
             android:exported="true" />
-
-
 
     </application>
 
