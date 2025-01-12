@@ -6,6 +6,7 @@ plugins {
 android {
     namespace = "com.example.create_account"
     compileSdk = 35
+    buildToolsVersion = "35.0.0" // Build Tools sürümü eklendi
 
     defaultConfig {
         applicationId = "com.example.create_account"
@@ -31,12 +32,11 @@ android {
         targetCompatibility = JavaVersion.VERSION_11
     }
     kotlinOptions {
-        jvmTarget = "11"
+        jvmTarget = "11" // JVM hedefi doğru ve Gradle ile uyumlu
     }
 }
 
 dependencies {
-
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
